@@ -1,0 +1,12 @@
+{
+    "name": "two_player_breakout",
+    "version": "0.0.1",
+    "description": "two-player cooperative breakout, with socket.io and express.",
+    "dependencies": {
+        "express": "^4.16.4",
+        "socket.io": "^1.7.4"
+    },
+    "scripts": {
+        "start": "node main.js"
+    }
+}
