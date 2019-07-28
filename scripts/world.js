@@ -13,7 +13,7 @@ var World = {
         this.width  = width;
         this.height = height;
         
-        bricks = new Array(width * height);
+        bricks = new Array(width * height).fill(null);
         
         var start_y = Math.floor((height - thickness) / 2);
         var end_y   = Math.ceil((height + thickness) / 2);
@@ -27,6 +27,17 @@ var World = {
     
     get_brick: function(x, y) {
         return bricks[y * this.width + x];
+    },
+    
+    get all_bricks() {
+        //surprise! only returns their colours
+        return bricks.map((b) => {
+            if (b != null) {
+                return b.colour;
+            } else {
+                return {r: 0, g: 0, b: 0};
+            }
+        });
     },
 };
 

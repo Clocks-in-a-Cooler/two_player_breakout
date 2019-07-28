@@ -43,7 +43,7 @@ io.on("connection", function(socket) {
                 //assign player two
                 socket.emit("notification", "you are player two.")
                 player = player2 = new Player(World.width, World.height, "bottom");
-            } else if (player1 != null && player2 == null) {
+            } else if (player1 != null && player2 != null) {
                 //server has problems
             } else {
                 //server *really* has problems
@@ -51,15 +51,13 @@ io.on("connection", function(socket) {
             }
         }
         
-        debugger;
-        
         player.x = data.x;
         
         socket.emit("server update", {
             //things to send, for now:
             //[x] players' positions
             //[x] the time
-            bricks: [],
+            bricks: World.all_bricks,
             balls: [],
             players: [player1, player2],
             time: new Date().getTime(),
@@ -67,12 +65,14 @@ io.on("connection", function(socket) {
     });
     
     socket.on("disconnect", function() {
-        log("player disconnected.", "notification");
         if (player == player1) {
             player1 = null;
+            log("player 1 disconnected.", "notification");
         }
+        
         if (player == player2) {
             player2 = null;
+            log("player 2 disconnected.", "notification");
         }
     });
     
@@ -92,5 +92,5 @@ module.exports   = function(port) {
     server.listen(port, function() {
         log("== NEW SERVER SESSION ==", "notification");
         log("http server listening on port " + port + ".", "notification");
-    })
+    });
 }
