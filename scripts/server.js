@@ -9,8 +9,9 @@ var server  = require("http").createServer(app);
 var log    = require(__dirname + "/logging.js");
 var World  = require(__dirname + "/world.js");
 var Player = require(__dirname + "/player.js");
+var Ball   = require(__dirname + "/ball.js");
 
-World.init(15, 24, 6);
+World.init(15, 24, 10);
 
 //the goal: set up a bare bones framework, then build on it.
 
@@ -39,10 +40,12 @@ io.on("connection", function(socket) {
                 //assign player one
                 socket.emit("notification", "you are player one.");
                 player = player1 = new Player(World.width, World.height, "top");
+                World.add_ball(new Ball(player.x, player.width, {x: 0, y: 1}));
             } else if (player1 != null && player2 == null) {
                 //assign player two
-                socket.emit("notification", "you are player two.")
+                socket.emit("notification", "you are player two.");
                 player = player2 = new Player(World.width, World.height, "bottom");
+                World.add_ball(new Ball(player.x, World.height - player.width, {x: 0, y: -1}));
             } else if (player1 != null && player2 != null) {
                 //server has problems
             } else {
@@ -54,11 +57,8 @@ io.on("connection", function(socket) {
         player.x = data.x;
         
         socket.emit("server update", {
-            //things to send, for now:
-            //[x] players' positions
-            //[x] the time
             bricks: World.all_bricks,
-            balls: [],
+            balls: World.all_balls,
             players: [player1, player2],
             time: new Date().getTime(),
         });
@@ -75,7 +75,6 @@ io.on("connection", function(socket) {
             log("player 2 disconnected.", "notification");
         }
     });
-    
 });
 
 //for game events

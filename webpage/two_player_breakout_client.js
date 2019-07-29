@@ -94,6 +94,14 @@ function draw_screen() {
             context.fillRect(p.x - p.width, p.y, 2 * p.width, p.height);
         }
     });
+    
+    balls.forEach((b) => {
+        context.fillStyle = "white";
+        context.beginPath();
+        context.arc(b.x, b.y, 0.3, 0, 2 * Math.PI);
+        context.closePath();
+        context.fill();
+    });
 }
 
 //helper function
