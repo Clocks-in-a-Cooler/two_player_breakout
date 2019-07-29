@@ -7,7 +7,8 @@ var bricks  = [];
 var balls   = [];
 
 var last_update = null, lapse = 0;
-function update(time) {
+function update() {
+    var time = new Date().getTime();
     if (last_update == null) {
         lapse = 0;
     } else {
@@ -20,13 +21,15 @@ function update(time) {
         lapse = 100;
     }
     
-    bricks.forEach((b) => {
-        if (b == null) {
-            return;
-        } else if (b.health <= 0) {
-            b = null;
+    for (var c = 0; c < bricks.length; c++) {
+        if (bricks[c] == null) {
+            continue;
         }
-    });
+        
+        if (bricks[c].health <= 0) {
+            bricks[c] = null;
+        }
+    }
     
     balls = balls.filter((b) => { return b.active; });
     balls.forEach((b) => { b.update(lapse); });
@@ -92,11 +95,10 @@ var World = {
     
     start_level: function(b) {
         balls = b;
-        
-        setImmediate(update);
     },
     
     add_ball: function(ball) {
+        debugger;
         balls.push(ball);
     },
 };
