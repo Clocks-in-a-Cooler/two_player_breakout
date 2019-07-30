@@ -34,13 +34,13 @@ Ball.prototype.update = function(lapse) {
     //for brick in position 0
     if (colliding_bricks[0] != null) {
         //check for x
-        if (left_limit < colliding_bricks[0].x && this.v.x < 0) {
+        if (left_limit < colliding_bricks[0].x) {
             colliding_bricks[0].collide();
             this.v.x *= -1;
         }
         
         //check for y
-        if (upper_limit < colliding_bricks[0].y && this.v.y < 0) {
+        if (upper_limit < colliding_bricks[0].y) {
             colliding_bricks[0].collide();
             this.v.y *= -1;
         }
@@ -49,27 +49,31 @@ Ball.prototype.update = function(lapse) {
     //and so on...
     if (colliding_bricks[1] != null) {
         //check for x
-        if (left_limit < colliding_bricks[1].x && this.v.x < 0) {
+        if (left_limit < colliding_bricks[1].x) {
             colliding_bricks[1].collide();
             this.v.x *= -1;
         }
         
+        debugger;
+        
         //check for y
-        if (lower_limit > colliding_bricks[1].y && this.v.y > 0) {
+        if (lower_limit > colliding_bricks[1].y - 1) {
             colliding_bricks[1].collide();
-            this.v.y *= -1;
+            if (this.v.y > 0) {
+                this.v.y *= -1;
+            }
         }
     }
     
     if (colliding_bricks[2] != null) {
         //check for x
-        if (right_limit > colliding_bricks[2].x && this.v.x > 0) {
+        if (right_limit > colliding_bricks[2].x) {
             colliding_bricks[2].collide();
             this.v.x *= -1;
         }
         
         //check for y
-        if (upper_limit < colliding_bricks[2].y && this.v.y < 0) {
+        if (upper_limit < colliding_bricks[2].y) {
             colliding_bricks[2].collide();
             this.v.y *= -1;
         }
@@ -77,13 +81,13 @@ Ball.prototype.update = function(lapse) {
     
     if (colliding_bricks[3] != null) {
         //check for x
-        if (right_limit > colliding_bricks[3].x && this.v.x > 0) {
+        if (right_limit > colliding_bricks[3].x) {
             colliding_bricks[3].collide();
             this.v.x *= -1;
         }
         
         //check for y
-        if (lower_limit > colliding_bricks[3].y && this.v.y > 0) {
+        if (lower_limit > colliding_bricks[3].y - 1) {
             colliding_bricks[3].collide();
             this.v.y *= -1;
         }
@@ -101,9 +105,9 @@ Ball.prototype.update = function(lapse) {
 
 Ball.prototype.get_overlapping_bricks = function() {
     var start_x = Math.floor(this.x);
-    var start_y = Math.floor(this.y);
+    var start_y = Math.floor(this.y - 1);
     var end_x   = Math.ceil(this.x);
-    var end_y   = Math.ceil(this.y);
+    var end_y   = Math.ceil(this.y - 1);
     
     if (start_x == end_x) {
         if (this.v.x <= 0 || this.x > World.width) {

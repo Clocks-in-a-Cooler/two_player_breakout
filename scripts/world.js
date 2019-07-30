@@ -52,7 +52,8 @@ var World = {
         
         for (var b = start_y; b <= end_y; b++) {
             for (var a = 0; a < width; a++) {
-                bricks[b * width + a] = new Brick(Colours.random());
+                debugger;
+                bricks[b * width + a] = new Brick(Colours.random(), a, b);
             }
         }
         
@@ -67,7 +68,7 @@ var World = {
         
         for (var b = start_y; b <= end_y; b++) {
             for (var a = 0; a < width; a++) {
-                bricks[b * width + a] = new Brick(Colours.random());
+                bricks[b * width + a] = new Brick(Colours.random(), a, b);
             }
         }
     },
@@ -98,7 +99,6 @@ var World = {
     },
     
     add_ball: function(ball) {
-        debugger;
         balls.push(ball);
     },
 };
