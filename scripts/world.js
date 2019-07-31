@@ -52,7 +52,6 @@ var World = {
         
         for (var b = start_y; b <= end_y; b++) {
             for (var a = 0; a < width; a++) {
-                debugger;
                 bricks[b * width + a] = new Brick(Colours.random(), a, b);
             }
         }
