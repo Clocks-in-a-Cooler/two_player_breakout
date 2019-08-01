@@ -7,13 +7,13 @@ var aspect_ratio = window.innerHeight / window.innerWidth;
 if (aspect_ratio <= 1.6) {
     canvas.height = window.innerHeight - 2;
     canvas.width  = window.innerHeight / 1.6;
-    
+
     canvas.style.top  = "0px";
     canvas.style.left = ((window.innerWidth - canvas.width) / 2) + "px";
 } else {
     canvas.width  = window.innerWidth - 2;
     canvas.height = window.innerWidth * 1.6;
-    
+
     canvas.style.left = "0px";
     canvas.style.top  = ((window.innerHeight - canvas.height) / 2) + "px";
 }
@@ -53,7 +53,7 @@ function animate(time) {
         lapse = time - last_time;
     }
     last_time = time;
-    
+
     if (need_update)  {
         socket.emit("client update", {
             //data to send:
@@ -63,38 +63,38 @@ function animate(time) {
             time: new Date().getTime(),
         });
     }
-    
+
     need_update = !need_update;
-    
+
     draw_screen();
-    
+
     requestAnimationFrame(animate);
 }
 
 //draws what the player sees
 function draw_screen() {
     context.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     for (var y = 0; y < 24; y++) {
         for (var x = 0; x < 15; x++) {
             var b = bricks[y * 15 + x];
-            
+
             if (b == undefined) {
                 continue;
             }
-            
+
             context.fillStyle = get_colour(b);
             context.fillRect(x, y, 1, 1);
         }
     }
-    
+
     players.forEach((p) => {
         if (p != null) {
             context.fillStyle = "aliceblue";
             context.fillRect(p.x - p.width, p.y, 2 * p.width, p.height);
         }
     });
-    
+
     balls.forEach((b) => {
         context.fillStyle = "white";
         context.beginPath();
@@ -109,7 +109,7 @@ function get_colour(c) {
     if (c == undefined) {
         return "rgba(0, 0, 0, 1)";
     }
-    
+
     if (c.alpha != undefined) {
         return "rgba(" + c.r + ", " + c.g + ", " + c.b + ", " + c.alpha + ")";
     } else {
@@ -120,13 +120,17 @@ function get_colour(c) {
 //event handlers. and don't forget to add them to the canvas
 function mousemove(e) {
     e.preventDefault();
-    
+
     cursor = e.offsetX / scale;
 }
 
-canvas.addEventListener("mousemove", mousemove);
+function touchmove(e) {
+    e.preventDefault();
+    cursor = e.touches[0].offsetX / scale;
+}
 
-//add in mobile support later
+canvas.addEventListener("mousemove", mousemove);
+canvas.addEventListener("touchmove", touchmove);
 
 //at the very end, we KicKSTART!
 requestAnimationFrame(animate);
