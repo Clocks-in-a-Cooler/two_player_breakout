@@ -1,5 +1,3 @@
-var World = require(__dirname + "/world.js");
-
 function Ball(x, y, v, colour) {
     this.x = x;
     this.y = y;
@@ -255,5 +253,3 @@ Ball.prototype.get_overlapping_bricks = function() {
         World.get_brick(end_x, end_y),
     ];
 };
-
-module.exports = Ball;
